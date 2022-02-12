@@ -1,9 +1,26 @@
 import {
-    Combobox,
     ComboboxOptions,
+    Combobox as FoundationCombobox,
     comboboxTemplate as template,
 } from "@microsoft/fast-foundation";
+import { optionHeight } from "../listbox-option/listbox-option.styles";
+import { selectMaxSize } from "../select/select.styles";
 import { comboboxStyles as styles } from "./combobox.styles";
+
+/**
+ * Base class for Combobox.
+ * @public
+ */
+export class Combobox extends FoundationCombobox {
+    /**
+     * @internal
+     */
+    protected maxHeightChanged(prev: number | undefined, next: number): void {
+        selectMaxSize.setValueFor(this, target => {
+            return Math.floor(this.maxHeight / optionHeight.getValueFor(target));
+        });
+    }
+}
 
 /**
  * A function that returns a {@link @microsoft/fast-foundation#Combobox} registration for configuring the component with a DesignSystem.
@@ -16,6 +33,7 @@ import { comboboxStyles as styles } from "./combobox.styles";
  */
 export const fastCombobox = Combobox.compose<ComboboxOptions>({
     baseName: "combobox",
+    baseClass: FoundationCombobox,
     template,
     styles,
     shadowOptions: {
@@ -34,11 +52,5 @@ export const fastCombobox = Combobox.compose<ComboboxOptions>({
         </svg>
     `,
 });
-
-/**
- * Base class for Combobox
- * @public
- */
-export { Combobox };
 
 export { styles as comboboxStyles };

@@ -473,7 +473,7 @@ export class Combobox extends FormAssociatedCombobox {
     // @internal
     maxHeight: number;
     open: boolean;
-    // (undocumented)
+    // @internal
     protected openChanged(): void;
     get options(): ListboxOption[];
     set options(value: ListboxOption[]);
@@ -483,16 +483,16 @@ export class Combobox extends FormAssociatedCombobox {
     position: SelectPosition;
     positionAttribute: SelectPosition;
     // @internal
-    selectedIndexChanged(prev: number, next: number): void;
+    selectedIndexChanged(prev: number | undefined, next: number): void;
     // @internal
-    selectedOptionsChanged(prev: any, next: any): void;
+    protected selectedOptionsChanged(prev: ListboxOption[] | undefined, next: ListboxOption[]): void;
     // @internal
     selectPreviousOption(): void;
     // @internal
     setDefaultSelectedOption(): void;
     setPositioning(): void;
     // @internal
-    slottedOptionsChanged(prev: any, next: any): void;
+    slottedOptionsChanged(prev: Element[] | undefined, next: Element[]): void;
     get value(): string;
     set value(next: string);
     }
@@ -1410,9 +1410,6 @@ export abstract class Listbox extends FoundationElement {
     get length(): number;
     // @internal
     mousedownHandler(e: MouseEvent): boolean | void;
-    multiple: boolean;
-    // @internal
-    multipleChanged(prev: boolean | undefined, next: boolean): void;
     get options(): ListboxOption[];
     set options(value: ListboxOption[]);
     // @internal
@@ -1497,7 +1494,8 @@ export class ListboxElement extends Listbox {
     keydownHandler(e: KeyboardEvent): boolean | void;
     // @internal @override
     mousedownHandler(e: MouseEvent): boolean | void;
-    // @internal @override
+    multiple: boolean;
+    // @internal
     multipleChanged(prev: boolean | undefined, next: boolean): void;
     // @internal
     protected rangeStartIndex: number;
@@ -2145,8 +2143,12 @@ export const searchTemplate: FoundationElementTemplate<ViewTemplate<Search>, Sea
 export class Select extends FormAssociatedSelect {
     // @internal
     clickHandler(e: MouseEvent): boolean | void;
+    // @internal
+    get collapsible(): boolean;
     // (undocumented)
     connectedCallback(): void;
+    // @internal
+    control: HTMLElement;
     // @internal
     disabledChanged(prev: boolean, next: boolean): void;
     displayValue: string;
@@ -2160,19 +2162,26 @@ export class Select extends FormAssociatedSelect {
     listbox: HTMLDivElement;
     // @internal
     maxHeight: number;
+    // @internal @override
+    mousedownHandler(e: MouseEvent): boolean | void;
+    multipleChanged(prev: boolean | undefined, next: boolean): void;
     // @internal
     open: boolean;
-    // (undocumented)
-    protected openChanged(): void;
+    // @internal
+    protected openChanged(prev: boolean | undefined, next: boolean): void;
     position: SelectPosition;
     positionAttribute: SelectPosition;
     // @internal
-    selectedIndexChanged(prev: any, next: any): void;
-    // (undocumented)
+    selectedIndexChanged(prev: number | undefined, next: number): void;
+    // @internal @override
+    protected selectedOptionsChanged(prev: ListboxOption[] | undefined, next: ListboxOption[]): void;
+    // @internal @override
     protected setDefaultSelectedOption(): void;
     setPositioning(): void;
+    // @internal @override
+    protected sizeChanged(prev: number | undefined, next: number): void;
     // @internal
-    slottedOptionsChanged(prev: any, next: any): void;
+    slottedOptionsChanged(prev: Element[] | undefined, next: Element[]): void;
     get value(): string;
     set value(next: string);
     }
